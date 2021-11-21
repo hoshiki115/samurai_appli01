@@ -1,0 +1,117 @@
+package servlet;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import model.InputArray;
+import model.InputCheck;
+import model.InputCost;
+import model.InputIncome;
+
+@WebServlet("/InputResServlet")
+public class InputResServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    // 入力値全クリア
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+        request.setCharacterEncoding("UTF-8");
+        String currentAge = "";
+        String currentIncome = "";
+        String retireAge = "";
+        String severanceIncome = "";
+        String pensionAge = "";
+        String pensionIncome = "";
+        String currentSaving = "";
+        String regIncome = "";
+        String regIncomeAge = "";
+        String otherIncome = "";
+        String otherIncomeAge = "";
+        String endAge = "";
+        
+        String monthlyCost = "";
+        String everyYearCost = "";
+        String timeLimitCost1 = "";
+        String timeLimitAge1 = "";
+        String timeLimitCost2 = "";
+        String timeLimitAge2 = "";
+        String expectedCost = "";
+        String expectedAge = "";
+        String planCostF = "";
+        
+        InputIncome inputIncome = new InputIncome(currentAge, currentIncome, retireAge, severanceIncome, pensionAge,
+                pensionIncome, currentSaving, regIncome, regIncomeAge, otherIncome, otherIncomeAge, endAge);
+        InputCost inputCost = new InputCost(monthlyCost, everyYearCost, timeLimitCost1, timeLimitAge1,
+                timeLimitCost2, timeLimitAge2, expectedCost, expectedAge, planCostF);
+        
+        List<String> errorList = new ArrayList<String>();
+        
+        // セッションスコープに保存
+        HttpSession session = request.getSession();
+        session.setAttribute("inputIncome", inputIncome);
+        session.setAttribute("inputCost", inputCost);
+        session.setAttribute("errorList", errorList);
+        
+        // 入力画面にフォワード
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
+        dispatcher.forward(request, response);
+    }
+    // 入力値を取得
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        String currentAge = request.getParameter("currentAge");
+        String currentIncome = request.getParameter("currentIncome");
+        String retireAge = request.getParameter("retireAge");
+        String severanceIncome = request.getParameter("severanceIncome");
+        String pensionAge = request.getParameter("pensionAge");
+        String pensionIncome = request.getParameter("pensionIncome");
+        String currentSaving = request.getParameter("currentSaving");
+        String regIncome = request.getParameter("regIncome");
+        String regIncomeAge = request.getParameter("regIncomeAge");
+        String otherIncome = request.getParameter("otherIncome");
+        String otherIncomeAge = request.getParameter("otherIncomeAge");
+        String endAge = request.getParameter("endAge");
+        
+        String monthlyCost = request.getParameter("monthlyCost");
+        String everyYearCost = request.getParameter("everyYearCost");
+        String timeLimitCost1 = request.getParameter("timeLimitCost1");
+        String timeLimitAge1 = request.getParameter("timeLimitAge1");
+        String timeLimitCost2 = request.getParameter("timeLimitCost2");
+        String timeLimitAge2 = request.getParameter("timeLimitAge2");
+        String expectedCost = request.getParameter("expectedCost");
+        String expectedAge = request.getParameter("expectedAge");
+        String planCostF = request.getParameter("planCostF");
+        
+        InputIncome inputIncome = new InputIncome(currentAge, currentIncome, retireAge, severanceIncome, pensionAge,
+                pensionIncome, currentSaving, regIncome, regIncomeAge, otherIncome, otherIncomeAge, endAge);
+        InputCost inputCost = new InputCost(monthlyCost, everyYearCost, timeLimitCost1, timeLimitAge1,
+                timeLimitCost2, timeLimitAge2, expectedCost, expectedAge, planCostF);
+        
+        // 入力値を配列に格納
+        String [] paramName = InputArray.inputArrayParamName();
+        String [] paramValue = InputArray.inputArrayParamValue(inputIncome, inputCost);
+        
+        // 入力値をチェック
+        List<String> errorList = InputCheck.inputCheck(paramName,paramValue);
+        
+        // 入力値とエラーメッセージをセッションスコープに保存  
+        HttpSession session = request.getSession();
+        session.setAttribute("inputIncome", inputIncome);
+        session.setAttribute("inputCost", inputCost);
+        session.setAttribute("errorList", errorList);
+        
+        // 入力画面にフォワード
+        if(errorList != null) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+}
