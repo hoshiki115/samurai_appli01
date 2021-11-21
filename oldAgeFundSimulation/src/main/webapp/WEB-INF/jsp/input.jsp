@@ -55,7 +55,7 @@ InputCheck inputCheck = (InputCheck) session.getAttribute("errorCheck");
     <p>　　　　　　（例：娯楽・旅行・イベント・その他）</p><br>
     <p>　　シミュレーション終了年齢：<input type="number" name="endAge" value="${inputIncome.endAge}">歳まで　　　　　
     <input type="submit" value="シミュレーション結果の表示">　　　　　　　　　　　　　　　
-    <a href="/oldAgeFundSimulation/Main">＜＜ TOPに戻る</a></p>
+    <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>
     
     <p>エラーメッセージ</p>
     <c:if test="${errorList != null}">
