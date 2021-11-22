@@ -1,7 +1,6 @@
 package servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -20,49 +19,6 @@ import model.InputIncome;
 public class InputResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
-    // 入力値全クリア
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-        request.setCharacterEncoding("UTF-8");
-        String currentAge = "";
-        String currentIncome = "";
-        String retireAge = "";
-        String severanceIncome = "";
-        String pensionAge = "";
-        String pensionIncome = "";
-        String currentSaving = "";
-        String regIncome = "";
-        String regIncomeAge = "";
-        String otherIncome = "";
-        String otherIncomeAge = "";
-        String endAge = "";
-        
-        String monthlyCost = "";
-        String everyYearCost = "";
-        String timeLimitCost1 = "";
-        String timeLimitAge1 = "";
-        String timeLimitCost2 = "";
-        String timeLimitAge2 = "";
-        String expectedCost = "";
-        String expectedAge = "";
-        String planCostF = "";
-        
-        InputIncome inputIncome = new InputIncome(currentAge, currentIncome, retireAge, severanceIncome, pensionAge,
-                pensionIncome, currentSaving, regIncome, regIncomeAge, otherIncome, otherIncomeAge, endAge);
-        InputCost inputCost = new InputCost(monthlyCost, everyYearCost, timeLimitCost1, timeLimitAge1,
-                timeLimitCost2, timeLimitAge2, expectedCost, expectedAge, planCostF);
-        
-        List<String> errorList = new ArrayList<String>();
-        
-        // セッションスコープに保存
-        HttpSession session = request.getSession();
-        session.setAttribute("inputIncome", inputIncome);
-        session.setAttribute("inputCost", inputCost);
-        session.setAttribute("errorList", errorList);
-        
-        // 入力画面にフォワード
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
-        dispatcher.forward(request, response);
-    }
     // 入力値を取得
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -97,11 +53,13 @@ public class InputResServlet extends HttpServlet {
         // 入力値をチェック
         List<String> errorList = InputCheck.inputCheck(inputIncome,inputCost);
         
-        // 入力値とエラーメッセージをセッションスコープに保存  
+        // 入力値をセッションスコープに保存  
         HttpSession session = request.getSession();
         session.setAttribute("inputIncome", inputIncome);
         session.setAttribute("inputCost", inputCost);
-        session.setAttribute("errorList", errorList);
+        
+        // エラーメッセージをリクエストスコープに保存
+        request.setAttribute("errorList", errorList);
         
         // 入力画面にフォワード
         if(errorList != null) {
