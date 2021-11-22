@@ -5,7 +5,11 @@ import java.util.List;
 
 public class InputCheck {
 
-    public static List<String> inputCheck(String [] paramName, String [] paramValue) {
+    public static List<String> inputCheck(InputIncome inputIncome, InputCost inputCost) {
+        // 入力値を配列に格納
+        String [] paramName = InputArray.inputArrayParamName();
+        String [] paramValue = InputArray.inputArrayParamValue(inputIncome, inputCost);
+        
         int [] intParamValue = new int [21];
         List<String> errorList = new ArrayList<String>();
         

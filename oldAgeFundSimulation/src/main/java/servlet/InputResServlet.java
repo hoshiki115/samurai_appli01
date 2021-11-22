@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.InputArray;
 import model.InputCheck;
 import model.InputCost;
 import model.InputIncome;
@@ -95,12 +94,8 @@ public class InputResServlet extends HttpServlet {
         InputCost inputCost = new InputCost(monthlyCost, everyYearCost, timeLimitCost1, timeLimitAge1,
                 timeLimitCost2, timeLimitAge2, expectedCost, expectedAge, planCostF);
         
-        // 入力値を配列に格納
-        String [] paramName = InputArray.inputArrayParamName();
-        String [] paramValue = InputArray.inputArrayParamValue(inputIncome, inputCost);
-        
         // 入力値をチェック
-        List<String> errorList = InputCheck.inputCheck(paramName,paramValue);
+        List<String> errorList = InputCheck.inputCheck(inputIncome,inputCost);
         
         // 入力値とエラーメッセージをセッションスコープに保存  
         HttpSession session = request.getSession();
