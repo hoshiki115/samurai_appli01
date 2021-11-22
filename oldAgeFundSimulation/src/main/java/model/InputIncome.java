@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class InputIncome implements Serializable {
     
     private String currentAge; // 現在の年齢
@@ -18,21 +20,19 @@ public class InputIncome implements Serializable {
     private String endAge; // シミュレーション終了年齢
     
     public InputIncome() {}
-    public InputIncome(String currentAge, String currentIncome, String retireAge, String severanceIncome,
-            String pensionAge, String pensionIncome, String currentSaving, String regIncome,
-            String regIncomeAge, String otherIncome, String otherIncomeAge, String endAge) {
-        this.currentAge = currentAge;
-        this.currentIncome = currentIncome;
-        this.retireAge = retireAge;
-        this.severanceIncome = severanceIncome;
-        this.pensionAge = pensionAge;
-        this.pensionIncome = pensionIncome;
-        this.currentSaving = currentSaving;
-        this.regIncome = regIncome;
-        this.regIncomeAge = regIncomeAge;
-        this.otherIncome = otherIncome;
-        this.otherIncomeAge = otherIncomeAge;
-        this.endAge = endAge;
+    public InputIncome(HttpServletRequest request) {
+        this.currentAge = request.getParameter("currentAge");
+        this.currentIncome = request.getParameter("currentIncome");
+        this.retireAge = request.getParameter("retireAge");
+        this.severanceIncome = request.getParameter("severanceIncome");
+        this.pensionAge = request.getParameter("pensionAge");
+        this.pensionIncome = request.getParameter("pensionIncome");
+        this.currentSaving = request.getParameter("currentSaving");
+        this.regIncome = request.getParameter("regIncome");
+        this.regIncomeAge = request.getParameter("regIncomeAge");
+        this.otherIncome = request.getParameter("otherIncome");
+        this.otherIncomeAge = request.getParameter("otherIncomeAge");
+        this.endAge = request.getParameter("endAge");
     }
     
     public String getCurrentAge() { return currentAge; }

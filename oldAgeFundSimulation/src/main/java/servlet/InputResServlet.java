@@ -22,33 +22,9 @@ public class InputResServlet extends HttpServlet {
     // 入力値を取得
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String currentAge = request.getParameter("currentAge");
-        String currentIncome = request.getParameter("currentIncome");
-        String retireAge = request.getParameter("retireAge");
-        String severanceIncome = request.getParameter("severanceIncome");
-        String pensionAge = request.getParameter("pensionAge");
-        String pensionIncome = request.getParameter("pensionIncome");
-        String currentSaving = request.getParameter("currentSaving");
-        String regIncome = request.getParameter("regIncome");
-        String regIncomeAge = request.getParameter("regIncomeAge");
-        String otherIncome = request.getParameter("otherIncome");
-        String otherIncomeAge = request.getParameter("otherIncomeAge");
-        String endAge = request.getParameter("endAge");
         
-        String monthlyCost = request.getParameter("monthlyCost");
-        String everyYearCost = request.getParameter("everyYearCost");
-        String timeLimitCost1 = request.getParameter("timeLimitCost1");
-        String timeLimitAge1 = request.getParameter("timeLimitAge1");
-        String timeLimitCost2 = request.getParameter("timeLimitCost2");
-        String timeLimitAge2 = request.getParameter("timeLimitAge2");
-        String expectedCost = request.getParameter("expectedCost");
-        String expectedAge = request.getParameter("expectedAge");
-        String planCostF = request.getParameter("planCostF");
-        
-        InputIncome inputIncome = new InputIncome(currentAge, currentIncome, retireAge, severanceIncome, pensionAge,
-                pensionIncome, currentSaving, regIncome, regIncomeAge, otherIncome, otherIncomeAge, endAge);
-        InputCost inputCost = new InputCost(monthlyCost, everyYearCost, timeLimitCost1, timeLimitAge1,
-                timeLimitCost2, timeLimitAge2, expectedCost, expectedAge, planCostF);
+        InputIncome inputIncome = new InputIncome(request);
+        InputCost inputCost = new InputCost(request);
         
         // 入力値をチェック
         List<String> errorList = InputCheck.inputCheck(inputIncome,inputCost);

@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class InputCost implements Serializable {
     
     private String monthlyCost; // 毎月必ず発生する費用
@@ -15,18 +17,16 @@ public class InputCost implements Serializable {
     private String planCostF; // 毎年予定する費用
     
     public InputCost() {}
-    public InputCost(String monthlyCost, String everyYearCost, String timeLimitCost1, 
-            String timeLimitAge1, String timeLimitCost2, String timeLimitAge2,
-            String expectedCost, String expectedAge, String planCostF) {
-        this.monthlyCost = monthlyCost;
-        this.everyYearCost = everyYearCost;
-        this.timeLimitCost1 = timeLimitCost1;
-        this.timeLimitAge1 = timeLimitAge1;
-        this.timeLimitCost2 = timeLimitCost2;
-        this.timeLimitAge2 = timeLimitAge2;
-        this.expectedCost = expectedCost;
-        this.expectedAge = expectedAge;
-        this.planCostF = planCostF;
+    public InputCost(HttpServletRequest request) {
+        this.monthlyCost = request.getParameter("monthlyCost");
+        this.everyYearCost = request.getParameter("everyYearCost");
+        this.timeLimitCost1 = request.getParameter("timeLimitCost1");
+        this.timeLimitAge1 = request.getParameter("timeLimitAge1");
+        this.timeLimitCost2 = request.getParameter("timeLimitCost2");
+        this.timeLimitAge2 = request.getParameter("timeLimitAge2");
+        this.expectedCost = request.getParameter("expectedCost");
+        this.expectedAge = request.getParameter("expectedAge");
+        this.planCostF = request.getParameter("planCostF");
     }
     
     public String getMonthlyCost() { return monthlyCost; }
