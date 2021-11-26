@@ -9,7 +9,6 @@ public class InputCheck {
         // 入力値を配列に格納
         String [] paramName = InputArray.inputArrayParamName();
         String [] paramValue = InputArray.inputArrayParamValue(inputIncome, inputCost);
-        
         int [] intParamValue = new int [21];
         List<String> errorList = new ArrayList<String>();
         

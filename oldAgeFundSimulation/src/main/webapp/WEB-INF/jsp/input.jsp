@@ -36,7 +36,7 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
     <p>支出の部</p>
     <p>　　必要な生活費</p>
     <p>　　　　　　毎月必ず発生する費用：　　　　　　　　　　　　　　　<input type="number" name="monthlyCost" value="${inputCost.monthlyCost}">万円/月　×12＝
-    　　　　　　　　　　　　　　万円/年</p>
+    　　　　　　　　　　　　　　<c:out value="${inputCost.monthlyCost * 12}"/>万円/年</p>
     <p>　　　　　　（例：食費・生活必需品・住居費・水道光熱費・通信費・交通費・月払い保険料・その他）</p>
     <p>　　　　　　毎年必ず発生する費用：　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
         <input type="number" name="everyYearCost" value="${inputCost.everyYearCost}">万円/年</p>
@@ -58,9 +58,9 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
     <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>
     
     <p>エラーメッセージ</p>
-    <c:if test="${errorList != null}">
-        <c:forEach var="errorList" items="${errorList}">
-            　　${errorList} <br>
+    <c:if test="${errorList.size() != 0}">
+        <c:forEach var="list" items="${errorList}">
+            　　${list} <br>
         </c:forEach>
     </c:if>
     </form>

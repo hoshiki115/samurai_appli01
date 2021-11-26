@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Calc;
 import model.InputCheck;
 import model.InputCost;
 import model.InputIncome;
@@ -27,7 +28,7 @@ public class InputResServlet extends HttpServlet {
         InputCost inputCost = new InputCost(request);
         
         // 入力値をチェック
-        List<String> errorList = InputCheck.inputCheck(inputIncome,inputCost);
+        List<String> errorList = InputCheck.inputCheck(inputIncome, inputCost);
         
         // 入力値をセッションスコープに保存  
         HttpSession session = request.getSession();
@@ -37,9 +38,19 @@ public class InputResServlet extends HttpServlet {
         // エラーメッセージをリクエストスコープに保存
         request.setAttribute("errorList", errorList);
         
-        // 入力画面にフォワード
-        if(errorList != null) {
+        // エラーがある場合、入力画面にフォワード
+        if(errorList.size() != 0) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            // エラーがない場合、入力値からグラフ表示用の値を計算
+            int [][] outputArray = Calc.calc(inputIncome, inputCost);
+            
+            // 計算した値をリクエストスコープに保存
+            request.setAttribute("outputArray", outputArray);
+            
+            // 結果画面にフォワード
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
             dispatcher.forward(request, response);
         }
     }
