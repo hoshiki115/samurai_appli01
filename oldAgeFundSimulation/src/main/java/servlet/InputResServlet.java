@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -45,10 +46,33 @@ public class InputResServlet extends HttpServlet {
         } else {
             // エラーがない場合、入力値からグラフ表示用の値を計算
             int [][] outputArray = Calc.calc(inputIncome, inputCost);
-            
+            // 計算値が格納されている配列をListに変換
+            ArrayList<Integer> ageList = new ArrayList<>();
+            for(int i = 0; i < outputArray[0].length; i++) {
+                ageList.add(outputArray[0][i]);
+            }
+            ArrayList<Integer> incomeList = new ArrayList<>();
+            for(int i = 0; i < outputArray[1].length; i++) {
+                incomeList.add(outputArray[1][i]);
+            }
+            ArrayList<Integer> costList = new ArrayList<>();
+            for(int i = 0; i < outputArray[2].length; i++) {
+                costList.add(outputArray[2][i]);
+            }
+            ArrayList<Integer> balanceList = new ArrayList<>();
+            for(int i = 0; i < outputArray[3].length; i++) {
+                balanceList.add(outputArray[3][i]);
+            }
+            ArrayList<Integer> savingList = new ArrayList<>();
+            for(int i = 0; i < outputArray[4].length; i++) {
+                savingList.add(outputArray[4][i]);
+            }
             // 計算した値をリクエストスコープに保存
-            request.setAttribute("outputArray", outputArray);
-            
+            request.setAttribute("ageList", ageList);
+            request.setAttribute("incomeList", incomeList);
+            request.setAttribute("costList", costList);
+            request.setAttribute("balanceList", balanceList);
+            request.setAttribute("savingList", savingList);
             // 結果画面にフォワード
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
             dispatcher.forward(request, response);

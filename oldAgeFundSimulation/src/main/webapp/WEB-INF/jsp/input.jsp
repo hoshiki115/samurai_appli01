@@ -57,8 +57,8 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
     <input type="submit" value="シミュレーション結果の表示">　　　　　　　　　　　　　　　
     <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>
     
-    <p>エラーメッセージ</p>
-    <c:if test="${errorList.size() != 0}">
+    <c:if test="${errorList.size() != 0 && errorList != null}">
+        <p>エラーメッセージ</p>
         <c:forEach var="list" items="${errorList}">
             　　${list} <br>
         </c:forEach>
