@@ -21,6 +21,11 @@ import model.InputIncome;
 public class InputResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+     // 結果画面にフォワード
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
+        dispatcher.forward(request, response);
+    }
     // 入力値を取得
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -68,11 +73,11 @@ public class InputResServlet extends HttpServlet {
                 savingList.add(outputArray[4][i]);
             }
             // 計算した値をリクエストスコープに保存
-            request.setAttribute("ageList", ageList);
-            request.setAttribute("incomeList", incomeList);
-            request.setAttribute("costList", costList);
-            request.setAttribute("balanceList", balanceList);
-            request.setAttribute("savingList", savingList);
+            session.setAttribute("ageList", ageList);
+            session.setAttribute("incomeList", incomeList);
+            session.setAttribute("costList", costList);
+            session.setAttribute("balanceList", balanceList);
+            session.setAttribute("savingList", savingList);
             // 結果画面にフォワード
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/result.jsp");
             dispatcher.forward(request, response);

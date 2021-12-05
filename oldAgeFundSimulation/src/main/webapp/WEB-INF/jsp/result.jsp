@@ -2,11 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.ArrayList" %>
-<% ArrayList<Integer> ageList = (ArrayList<Integer>)request.getAttribute("ageList");
-ArrayList<Integer> incomeList = (ArrayList<Integer>)request.getAttribute("incomeList");
-ArrayList<Integer> costList = (ArrayList<Integer>)request.getAttribute("costList");
-ArrayList<Integer> balanceList = (ArrayList<Integer>)request.getAttribute("balanceList");
-ArrayList<Integer> savingList = (ArrayList<Integer>)request.getAttribute("savingList");
+<% ArrayList<Integer> ageList = (ArrayList<Integer>)session.getAttribute("ageList");
+ArrayList<Integer> incomeList = (ArrayList<Integer>)session.getAttribute("incomeList");
+ArrayList<Integer> costList = (ArrayList<Integer>)session.getAttribute("costList");
+ArrayList<Integer> balanceList = (ArrayList<Integer>)session.getAttribute("balanceList");
+ArrayList<Integer> savingList = (ArrayList<Integer>)session.getAttribute("savingList");
 %>
 <!DOCTYPE html>
 <html>

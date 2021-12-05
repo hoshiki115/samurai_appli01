@@ -12,19 +12,19 @@
     <body>
         <h1>シミュレーション結果管理</h1>
         <p>　　　　結果を表示したいシミュレーション名称をクリックしてください</p>
-        <br>
+        <p>※保存できる件数は10件まで</p>
         <table border="1" style="border-collapse: collapse">
             <tr>
-                <th>　削除　</th>
-<%--                <td>　No.　</td> --%> 
+                <td>　削除　</td>
+                <td>　No.　</td>
                 <td>　シミュレーション名称　</td>
                 <td>　　保存日　　</td>
                 <td>　　　　コメント　　　　</td>
             </tr>
-            <c:forEach var="i" items="${saveList}">
+            <c:forEach var="i" items="${saveList}" varStatus="j">
                 <tr>
                     <th><input type="checkbox" name="name"></th>
-<%--                    <td>　<c:out value="${i+1}" /></td> --%> 
+                    <td>　<c:out value="${j.index + 1}" /></td>
                     <td>　<c:out value="${i.getSimName()}" />　</td>
                     <td>　<c:out value="${i.getSaveDate()}" />　</td>
                     <td>　<c:out value="${i.getSimCom()}" />　</td>

@@ -26,20 +26,22 @@ public class ResultsDAO {
             
             // SELECT文の準備
             // String sql = "SELECT COUNT(*) AS SIMID FROM SIMRESULTS";
-            String sql = "SELECT COUNT(*) FROM SIMRESULTS";
+            String sql = "SELECT COUNT(*) AS SIMID FROM SIMRESULTS";
             PreparedStatement pStmt = conn.prepareStatement(sql);
             
             // SELECTを実行
             ResultSet rs = pStmt.executeQuery();
             
             // SELECT文の結果を格納
-            
+            if(rs.next()) {
+                saveNum = rs.getInt("SIMID");
+            }
+            return saveNum;
             
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
         }
-        return saveNum;
     }
     
     public List<SaveResult> findAll() { //全レコードを取得

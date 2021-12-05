@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.ResultsDAO;
 import model.GetSaveResLogic;
 import model.InputCost;
 import model.InputIncome;
@@ -24,7 +25,12 @@ public class ResManageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-     // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
+        // TEST
+        ResultsDAO dao = new ResultsDAO();
+        int saveNum = dao.count();
+        System.out.println(saveNum);
+        
+        // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
         GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
         List<SaveResult> saveList = getSaveResLogic.execute();
         request.setAttribute("saveList", saveList);
