@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.SaveResult, java.util.List" %>
-<% List<SaveResult> saveList = (List<SaveResult>) request.getAttribute("saveList"); %>
+<% List<SaveResult> saveList = (List<SaveResult>) request.getAttribute("saveList"); 
+String msg = (String) request.getAttribute("msg"); 
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,7 +13,9 @@
     </head>
     <body>
         <h1>シミュレーション結果管理</h1>
-        <p>　　　　結果を表示したいシミュレーション名称をクリックしてください</p>
+        <p>　　<c:out value="${msg}" /></p>
+        <% System.out.println(msg.length()); %>
+        <c:if test="${msg.length() > 15}">
         <p>※保存できる件数は10件まで</p>
         <table border="1" style="border-collapse: collapse">
             <tr>
@@ -35,6 +39,7 @@
         <form action="/oldAgeFundSimulation/Delete" method="get">
             <p>　<input type="submit" value="削除">　　<c:out value="${'削除したいものの□にチェックマークを付けて「削除」をクリックしてください'}" /></p>
         </form>
+        </c:if>
         <form action="/oldAgeFundSimulation/InputServlet" method="get">
             <p>　　　　　　　　　　　　　　　　<input type="submit" value="入力画面に戻る">　　　　　　　　　　　
             <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>

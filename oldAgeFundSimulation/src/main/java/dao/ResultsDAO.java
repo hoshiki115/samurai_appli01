@@ -43,7 +43,32 @@ public class ResultsDAO {
             return -1;
         }
     }
-    
+    public List<SaveResult> findSimName() { //全レコードのシミュレーション名称を取得
+        List<SaveResult> simNameList = new ArrayList<>();
+        
+        // データベース接続
+        try (Connection conn = DriverManager.getConnection(
+                JDBC_URL, DB_USER, DB_PASS)) {
+            
+            // SELECT文の準備
+            String sql = "SELECT SIMNAME FROM SIMRESULTS";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            
+            // SELECTを実行
+            ResultSet rs = pStmt.executeQuery();
+            
+            // SELECT文の結果をArrayListに格納
+            while (rs.next()) {
+                String simName = rs.getString("SIMNAME");
+                SaveResult saveResult = new SaveResult(simName);
+                simNameList.add(saveResult);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return simNameList;
+    }
     public List<SaveResult> findAll() { //全レコードを取得
         List<SaveResult> saveList = new ArrayList<>();
         

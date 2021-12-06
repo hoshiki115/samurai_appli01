@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.ResultsDAO;
+import model.CheckSaveNameLogic;
 import model.GetSaveResLogic;
 import model.InputCost;
 import model.InputIncome;
@@ -25,47 +26,74 @@ public class ResManageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TEST
+        // 保存件数のチェック
         ResultsDAO dao = new ResultsDAO();
         int saveNum = dao.count();
         System.out.println(saveNum);
-        
-        // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
-        GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
-        List<SaveResult> saveList = getSaveResLogic.execute();
-        request.setAttribute("saveList", saveList);
-        
+        if(saveNum == 0) {
+            request.setAttribute("msg", "保存された結果はありません");
+        } else {
+            // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
+            GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
+            List<SaveResult> saveList = getSaveResLogic.execute();
+            request.setAttribute("saveList", saveList);
+            request.setAttribute("msg", "結果を表示したいシミュレーション名称をクリックしてください");
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
         dispatcher.forward(request, response);
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        
-        // シミュレーション名称の入力をチェック
-        String simName = request.getParameter("simName");
-        if(simName == "" || simName == null) {
-            request.setAttribute("errorMsg", "シミュレーション名称が入力されていません");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
-            dispatcher.forward(request, response);
+        // 保存件数のチェック
+        ResultsDAO dao = new ResultsDAO();
+        int saveNum = dao.count();
+        if(saveNum >= 10) {
+            request.setAttribute("msg", "保存件数が10件を超えるため、不要なものを削除してから「入力画面に戻る」をクリックし、シミュレーション結果を保存し直してください");
+        } else {
+            // シミュレーション名称の入力をチェック
+            String simName = request.getParameter("simName");
+            if(simName == "" || simName == null) {
+                request.setAttribute("errorMsg", "シミュレーション名称が入力されていません");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+                dispatcher.forward(request, response);
+            } else if(simName.length() > 10) {
+                request.setAttribute("errorMsg", "シミュレーション名称 " + simName + " が10文字を超えています");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                // コメントの入力をチェック
+                String simCom = request.getParameter("simCom");
+                if(simCom.length() > 50) {
+                    request.setAttribute("errorMsg", "コメントが5０文字を超えています");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    // シミュレーション名称の重複をチェック
+                    CheckSaveNameLogic checkSaveNameLogic = new CheckSaveNameLogic();
+                    boolean isCheck = checkSaveNameLogic.execute(simName); 
+                    if(isCheck) {
+                        request.setAttribute("errorMsg", "シミュレーション名称 " + simName + " が重複しています");
+                        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+                        dispatcher.forward(request, response);
+                    }
+                }
+            }
+            // 保存日を取得
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy'年'MM'月'dd'日'");
+            String saveDate = sdf.format(date);
+            
+            String simCom = request.getParameter("simCom");
+            SaveResult saveResult = new SaveResult(simName, saveDate, simCom);
+            HttpSession session = request.getSession();
+            InputIncome inputIncome = (InputIncome) session.getAttribute("inputIncome");
+            InputCost inputCost = (InputCost) session.getAttribute("inputCost");
+            // シミュレーション結果を登録
+            PostSaveResLogic postSaveResLogic = new PostSaveResLogic();
+            postSaveResLogic.execute(saveResult, inputIncome, inputCost);
+            request.setAttribute("msg", "シミュレーション結果が正常に保存されました");
         }
-        // 保存日を取得
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy'年'MM'月'dd'日'");
-        String saveDate = sdf.format(date);
-        
-        String simCom = request.getParameter("simCom");
-        
-        SaveResult saveResult = new SaveResult(simName, saveDate, simCom);
-        
-        HttpSession session = request.getSession();
-        InputIncome inputIncome = (InputIncome) session.getAttribute("inputIncome");
-        InputCost inputCost = (InputCost) session.getAttribute("inputCost");
-        
-        // シミュレーション結果を登録
-        PostSaveResLogic postSaveResLogic = new PostSaveResLogic();
-        postSaveResLogic.execute(saveResult, inputIncome, inputCost);
-        
         // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
         GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
         List<SaveResult> saveList = getSaveResLogic.execute();

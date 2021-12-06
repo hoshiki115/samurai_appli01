@@ -9,6 +9,9 @@ public class SaveResult implements Serializable {
     private String simCom;
     
     public SaveResult() {}
+    public SaveResult(String simName) {
+        this.simName = simName;
+    }
     public SaveResult(String simName, String saveDate, String simCom) {
         this.simName = simName;
         this.saveDate = saveDate;
