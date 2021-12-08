@@ -146,4 +146,23 @@ public class ResultsDAO {
         }
         return true;
     }
+    public boolean delete(List<String> checkNames) { // レコードの削除
+        // データベース接続
+           try (Connection conn = DriverManager.getConnection(
+                   JDBC_URL, DB_USER, DB_PASS)) {
+               
+               // DELETE文の準備とDELETEの実行
+               String sql = "DELETE FROM SIMRESULTS WHERE SIMNAME = ?";
+               PreparedStatement pStmt = conn.prepareStatement(sql);
+               for(int i = 0; i < checkNames.size(); i++) {
+                   pStmt.setString(1, checkNames.get(i));
+                   pStmt.executeUpdate();
+               }
+               pStmt.close();
+           } catch (SQLException e) {
+               e.printStackTrace();
+               return false;
+           }
+           return true;
+       }
 }
