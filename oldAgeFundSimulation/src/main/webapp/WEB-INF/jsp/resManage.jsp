@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.SaveResult, java.util.List" %>
 <% List<SaveResult> saveList = (List<SaveResult>) request.getAttribute("saveList"); 
-int msg = (int)request.getAttribute("msg"); 
+int msg = (int)session.getAttribute("msg"); 
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +16,7 @@ int msg = (int)request.getAttribute("msg");
         <c:if test="${msg == 1}">
             <p style="color: red">　　<c:out value="保存された結果はありません" /></p>
         </c:if>
-        <c:if test="${msg == 2 ||　msg == 5}">
+        <c:if test="${msg == 2 || msg == 5}">
             <p>　　<c:out value="結果を表示したいシミュレーション名称をクリックしてください" /></p>
         </c:if>
         <c:if test="${msg == 3}">
@@ -41,18 +41,25 @@ int msg = (int)request.getAttribute("msg");
                     <tr>
                         <th><input type="checkbox" name="name" value="${i.getSimName()}"></th>
                         <td>　<c:out value="${j.index + 1}" /></td>
-                        <td>　<c:out value="${i.getSimName()}" />　</td>
+                        <c:choose>
+                            <c:when test="${msg == 3}">
+                                <td>　<c:out value="${i.getSimName()}" />　</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>　<a href="/oldAgeFundSimulation/DispResServlet" id="${i.getSimName()}">${i.getSimName()}</a></td>
+                            </c:otherwise>
+                        </c:choose>
                         <td>　<c:out value="${i.getSaveDate()}" />　</td>
                         <td>　<c:out value="${i.getSimCom()}" />　</td>
                     </tr>
                 </c:forEach>
             </table>
             <br>
-            <c:if test="${msg == 2 || msg == 4 || msg ==5}">
+            <c:if test="${msg == 2 || msg == 3 || msg ==4 || msg == 5}">
                 <p>　<input type="submit" value="削除">　　<c:out value="${'削除したいものの□にチェックマークを付けて「削除」をクリックしてください'}" /></p>
             </c:if>
         </form>
-        <c:if test="${msg == 3 || msg == 4 || msg ==5}">
+        <c:if test="${msg == 4 || msg == 5}">
             <form action="/oldAgeFundSimulation/InputServlet" method="get">
                 <p>　　　　　　　　　　　　　　　　<input type="submit" value="入力画面に戻る">　　　　　　　　　　　
             </form>

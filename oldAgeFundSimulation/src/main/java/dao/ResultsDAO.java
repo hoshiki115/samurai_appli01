@@ -146,7 +146,7 @@ public class ResultsDAO {
         }
         return true;
     }
-    public boolean delete(List<String> checkNames) { // レコードの削除
+    public void delete(List<String> checkNames) { // レコードの削除
         // データベース接続
            try (Connection conn = DriverManager.getConnection(
                    JDBC_URL, DB_USER, DB_PASS)) {
@@ -161,8 +161,6 @@ public class ResultsDAO {
                pStmt.close();
            } catch (SQLException e) {
                e.printStackTrace();
-               return false;
            }
-           return true;
        }
 }

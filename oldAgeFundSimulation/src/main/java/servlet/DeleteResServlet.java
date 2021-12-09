@@ -10,13 +10,38 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.ResultsDAO;
+import model.GetSaveResLogic;
+import model.SaveResult;
 
 @WebServlet("/DeleteResServlet")
 public class DeleteResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        List<String> checkNames = (List<String>) session.getAttribute("checkNames");
+        int msg = (int) session.getAttribute("msg");
+        ResultsDAO dao = new ResultsDAO();
+        dao.delete(checkNames);
+        int saveNum = dao.count();
+        if(saveNum == 0) {
+            msg = 1; // 保存された結果がない場合
+        } else {
+            // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
+            GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
+            List<SaveResult> saveList = getSaveResLogic.execute();
+            request.setAttribute("saveList", saveList);
+        }
+        if(msg == 3) {
+            msg = 5; // 保存件数が10件を超えていたのを削除したため3から5に変更
+        }
+        session.setAttribute("msg", msg);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
+        dispatcher.forward(request, response);
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         List<String> checkNames = new ArrayList<String>();
@@ -24,17 +49,9 @@ public class DeleteResServlet extends HttpServlet {
         for(int i = 0; i < simNames.length; i++) {
             checkNames.add(simNames[i]);
         }
-        ResultsDAO dao = new ResultsDAO();
-        boolean check = dao.delete(checkNames);
-        int msg = 0;
-        int saveNum = dao.count();
-        if(saveNum == 0) {
-            msg = 1; // 保存された結果がない場合
-        } else {
-            msg = 5; // 結果を表示したいシミュレーション名称をクリック（入力画面に戻るあり）
-        }
-        request.setAttribute("msg", msg);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
+        HttpSession session = request.getSession();
+        session.setAttribute("checkNames", checkNames);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/delConfirm.jsp");
         dispatcher.forward(request, response);
     }
 }
