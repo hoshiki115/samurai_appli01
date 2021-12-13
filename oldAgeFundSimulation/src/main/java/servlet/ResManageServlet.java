@@ -64,37 +64,37 @@ public class ResManageServlet extends HttpServlet {
             request.setAttribute("errorMsg", "シミュレーション名称が入力されていません");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
             dispatcher.forward(request, response);
-            } else if(simName.length() > 10) {
-                // シミュレーション名称の文字数をチェック
-                request.setAttribute("errorMsg", "シミュレーション名称 " + simName + " が10文字を超えています");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
-                dispatcher.forward(request, response);
-                } else if(simCom.length() > 50) {
-                    // コメントの入力をチェック
-                    request.setAttribute("errorMsg", "コメントが5０文字を超えています");
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
-                    dispatcher.forward(request, response);
-                    } else if(isCheck) {
-                        // シミュレーション名称の重複をチェック
-                        request.setAttribute("errorMsg", "シミュレーション名称 " + simName + " が重複しています");
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
-                        dispatcher.forward(request, response);
-                    } else {
-                        // 保存日を取得
-                        Date date = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy'年'MM'月'dd'日'");
-                        String saveDate = sdf.format(date);
-                        
-                        SaveResult saveResult = new SaveResult(simName, saveDate, simCom);
-                        HttpSession session = request.getSession();
-                        InputIncome inputIncome = (InputIncome) session.getAttribute("inputIncome");
-                        InputCost inputCost = (InputCost) session.getAttribute("inputCost");
-                        // シミュレーション結果を登録
-                        PostSaveResLogic postSaveResLogic = new PostSaveResLogic();
-                        postSaveResLogic.execute(saveResult, inputIncome, inputCost);
-                        msg = 4; // シミュレーション結果が正常に保存
-                        session.setAttribute("msg", msg);
-                    }
+        } else if(simName.length() > 10) {
+            // シミュレーション名称の文字数をチェック
+            request.setAttribute("errorMsg", "シミュレーション名称 " + simName + " が10文字を超えています");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+            dispatcher.forward(request, response);
+        } else if(simCom.length() > 50) {
+            // コメントの入力をチェック
+            request.setAttribute("errorMsg", "コメントが5０文字を超えています");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+            dispatcher.forward(request, response);
+        } else if(isCheck) {
+            // シミュレーション名称の重複をチェック
+            request.setAttribute("errorMsg", "シミュレーション名称 " + simName + " が重複しています");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            // 保存日を取得
+            Date date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy'年'MM'月'dd'日'");
+            String saveDate = sdf.format(date);
+            
+            SaveResult saveResult = new SaveResult(simName, saveDate, simCom);
+            HttpSession session = request.getSession();
+            InputIncome inputIncome = (InputIncome) session.getAttribute("inputIncome");
+            InputCost inputCost = (InputCost) session.getAttribute("inputCost");
+            // シミュレーション結果を登録
+            PostSaveResLogic postSaveResLogic = new PostSaveResLogic();
+            postSaveResLogic.execute(saveResult, inputIncome, inputCost);
+            msg = 4; // シミュレーション結果が正常に保存
+            session.setAttribute("msg", msg);
+        }
         // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
         GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
         List<SaveResult> saveList = getSaveResLogic.execute();

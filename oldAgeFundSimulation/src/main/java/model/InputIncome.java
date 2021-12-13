@@ -36,15 +36,27 @@ public class InputIncome implements Serializable {
     }
     
     public String getCurrentAge() { return currentAge; }
+    public void setCurrentAge(String currentAge) { this.currentAge = currentAge; }
     public String getCurrentIncome() { return currentIncome; }
+    public void setCurrentIncome(String currentIncome) { this.currentIncome = currentIncome; }
     public String getRetireAge() { return retireAge; }
+    public void setRetireAge(String retireAge) { this.retireAge = retireAge; }
     public String getSeveranceIncome() { return severanceIncome; }
+    public void setSeveranceIncome(String severanceIncome) { this.severanceIncome = severanceIncome; }
     public String getPensionAge() { return pensionAge; }
+    public void setPensionAge(String pensionAge) { this.pensionAge = pensionAge; }
     public String getPensionIncome() { return pensionIncome; }
+    public void setPensionIncome(String pensionIncome) { this.pensionIncome = pensionIncome; }
     public String getCurrentSaving() { return currentSaving; }
+    public void setCurrentSaving(String currentSaving) { this.currentSaving = currentSaving; }
     public String getRegIncome() { return regIncome; }
+    public void setRegIncome(String regIncome) { this.regIncome = regIncome; }
     public String getRegIncomeAge() { return regIncomeAge; }
+    public void setRegIncomeAge(String regIncomeAge) { this.regIncomeAge = regIncomeAge; }
     public String getOtherIncome() { return otherIncome; }
+    public void setOtherIncome(String otherIncome) { this.otherIncome = otherIncome; }
     public String getOtherIncomeAge() { return otherIncomeAge; }
+    public void setOtherIncomeAge(String otherIncomeAge) { this.otherIncomeAge = otherIncomeAge; }
     public String getEndAge() { return endAge; }
+    public void setEndAge(String endAge) { this.endAge = endAge; }
 }

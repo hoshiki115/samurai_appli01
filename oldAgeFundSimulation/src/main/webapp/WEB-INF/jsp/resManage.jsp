@@ -27,7 +27,8 @@ int msg = (int)session.getAttribute("msg");
             <p style="color: blue">　　<c:out value="シミュレーション結果が正常に保存されました" /></p>
             <p>　　<c:out value="結果を表示したいシミュレーション名称をクリックしてください" /></p>
         </c:if>
-        <form action="/oldAgeFundSimulation/DeleteResServlet" method="post">
+        <c:if test="${msg != 1}">
+        <form name="delConfirm">
             <p>※保存できる件数は10件まで</p>
             <table border="1" style="border-collapse: collapse">
                 <tr>
@@ -40,13 +41,13 @@ int msg = (int)session.getAttribute("msg");
                 <c:forEach var="i" items="${saveList}" varStatus="j">
                     <tr>
                         <th><input type="checkbox" name="name" value="${i.getSimName()}"></th>
-                        <td>　<c:out value="${j.index + 1}" /></td>
+                        <td>　<c:out value="${j.count}" /></td>
                         <c:choose>
                             <c:when test="${msg == 3}">
                                 <td>　<c:out value="${i.getSimName()}" />　</td>
                             </c:when>
                             <c:otherwise>
-                                <td>　<a href="/oldAgeFundSimulation/DispResServlet" id="${i.getSimName()}">${i.getSimName()}</a></td>
+                                <td>　<a href="/oldAgeFundSimulation/DispResServlet?simName=${i.getSimName()}">${i.getSimName()}</a></td>
                             </c:otherwise>
                         </c:choose>
                         <td>　<c:out value="${i.getSaveDate()}" />　</td>
@@ -56,14 +57,25 @@ int msg = (int)session.getAttribute("msg");
             </table>
             <br>
             <c:if test="${msg == 2 || msg == 3 || msg ==4 || msg == 5}">
-                <p>　<input type="submit" value="削除">　　<c:out value="${'削除したいものの□にチェックマークを付けて「削除」をクリックしてください'}" /></p>
+                <p>　<input name="btn" type="submit" value="削除">　　<c:out value="${'削除したいものの□にチェックマークを付けて「削除」をクリックしてください'}" /></p>
             </c:if>
         </form>
+        </c:if>
         <c:if test="${msg == 4 || msg == 5}">
             <form action="/oldAgeFundSimulation/InputServlet" method="get">
                 <p>　　　　　　　　　　　　　　　　<input type="submit" value="入力画面に戻る">　　　　　　　　　　　
             </form>
         </c:if>
         <p>　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>
+        <script>
+            document.delConfirm.btn.addEventListener('click', function() {
+                result = window.confirm('削除してもよいですか？');
+                if(result) {
+                    document.delConfirm.action = "/oldAgeFundSimulation/DeleteResServlet";
+                } else {
+                    document.delConfirm.action = "/oldAgeFundSimulation/ResManageServlet";
+                }
+            })
+        </script>
     </body>
 </html>

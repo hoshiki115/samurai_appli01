@@ -21,8 +21,12 @@ public class DeleteResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<String> checkNames = new ArrayList<String>();
+        String [] simNames = request.getParameterValues("name");
+        for(int i = 0; i < simNames.length; i++) {
+            checkNames.add(simNames[i]);
+        }
         HttpSession session = request.getSession();
-        List<String> checkNames = (List<String>) session.getAttribute("checkNames");
         int msg = (int) session.getAttribute("msg");
         ResultsDAO dao = new ResultsDAO();
         dao.delete(checkNames);
@@ -40,18 +44,6 @@ public class DeleteResServlet extends HttpServlet {
         }
         session.setAttribute("msg", msg);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
-        dispatcher.forward(request, response);
-    }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        List<String> checkNames = new ArrayList<String>();
-        String [] simNames = request.getParameterValues("name");
-        for(int i = 0; i < simNames.length; i++) {
-            checkNames.add(simNames[i]);
-        }
-        HttpSession session = request.getSession();
-        session.setAttribute("checkNames", checkNames);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/delConfirm.jsp");
         dispatcher.forward(request, response);
     }
 }

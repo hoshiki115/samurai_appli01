@@ -25,7 +25,6 @@ public class ResultsDAO {
                 JDBC_URL, DB_USER, DB_PASS)) {
             
             // SELECT文の準備
-            // String sql = "SELECT COUNT(*) AS SIMID FROM SIMRESULTS";
             String sql = "SELECT COUNT(*) AS SIMID FROM SIMRESULTS";
             PreparedStatement pStmt = conn.prepareStatement(sql);
             
@@ -68,6 +67,51 @@ public class ResultsDAO {
             return null;
         }
         return simNameList;
+    }
+    public String [] findByName(String selectName) { //選択した１レコードを取得
+        String [] inputValue = new String [21];
+        
+        // データベース接続
+        try (Connection conn = DriverManager.getConnection(
+                JDBC_URL, DB_USER, DB_PASS)) {
+            
+            // SELECT文の準備
+            String sql = "SELECT * FROM SIMRESULTS WHERE SIMNAME = ?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, selectName);
+            
+            // SELECTを実行
+            ResultSet rs = pStmt.executeQuery();
+            
+            // SELECT文の結果をinputValueに格納
+            if (rs.next()) {
+                inputValue[0] = rs.getString("CURRENTAGE");
+                inputValue[1] = rs.getString("CURRENTINCOME");
+                inputValue[2] = rs.getString("RETIREAGE");
+                inputValue[3] = rs.getString("SEVERANCEINCOME");
+                inputValue[4] = rs.getString("PENSIONAGE");
+                inputValue[5] = rs.getString("PENSIONINCOME");
+                inputValue[6] = rs.getString("CURRENTSAVING");
+                inputValue[7] = rs.getString("REGINCOME");
+                inputValue[8] = rs.getString("REGINCOMEAGE");
+                inputValue[9] = rs.getString("OTHERINCOME");
+                inputValue[10] = rs.getString("OTHERINCOMEAGE");
+                inputValue[11] = rs.getString("ENDAGE");
+                inputValue[12] = rs.getString("MONTHLYCOST");
+                inputValue[13] = rs.getString("EVERYYEARCOST");
+                inputValue[14] = rs.getString("TIMELIMITCOST1");
+                inputValue[15] = rs.getString("TIMELIMITAGE1");
+                inputValue[16] = rs.getString("TIMELIMITCOST2");
+                inputValue[17] = rs.getString("TIMELIMITAGE2");
+                inputValue[18] = rs.getString("EXPECTEDCOST");
+                inputValue[19] = rs.getString("EXPECTEDAGE");
+                inputValue[20] = rs.getString("PLANCOSTF");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return inputValue;
     }
     public List<SaveResult> findAll() { //全レコードを取得
         List<SaveResult> saveList = new ArrayList<>();
@@ -148,19 +192,19 @@ public class ResultsDAO {
     }
     public void delete(List<String> checkNames) { // レコードの削除
         // データベース接続
-           try (Connection conn = DriverManager.getConnection(
-                   JDBC_URL, DB_USER, DB_PASS)) {
+        try (Connection conn = DriverManager.getConnection(
+               JDBC_URL, DB_USER, DB_PASS)) {
                
-               // DELETE文の準備とDELETEの実行
-               String sql = "DELETE FROM SIMRESULTS WHERE SIMNAME = ?";
-               PreparedStatement pStmt = conn.prepareStatement(sql);
-               for(int i = 0; i < checkNames.size(); i++) {
-                   pStmt.setString(1, checkNames.get(i));
-                   pStmt.executeUpdate();
-               }
-               pStmt.close();
-           } catch (SQLException e) {
-               e.printStackTrace();
-           }
-       }
+            // DELETE文の準備とDELETEの実行
+            String sql = "DELETE FROM SIMRESULTS WHERE SIMNAME = ?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            for(int i = 0; i < checkNames.size(); i++) {
+                pStmt.setString(1, checkNames.get(i));
+                pStmt.executeUpdate();
+            }
+            pStmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

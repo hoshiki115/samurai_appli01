@@ -19,7 +19,7 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
     <input type="submit" value="入力値全クリア">
     </form>
     
-    <form action="/oldAgeFundSimulation/InputResServlet" method="post">
+    <form action="/oldAgeFundSimulation/InputResServlet" name="form1" method="post">
     <p>収入の部</p>
     <p>　　現在の年齢（40以上）：<input type="number" name="currentAge" value="${inputIncome.currentAge}">歳　　
             定年は何歳？：<input type="number" name="retireAge" value="${inputIncome.retireAge}">歳　　
@@ -35,8 +35,8 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
         <input type="number" name="otherIncome" value="${inputIncome.otherIncome}">万円/年</p>
     <p>支出の部</p>
     <p>　　必要な生活費</p>
-    <p>　　　　　　毎月必ず発生する費用：　　　　　　　　　　　　　　　　<input type="number" name="monthlyCost" value="${inputCost.monthlyCost}">万円/月　×12＝
-    　　　　　　　　　　　　　　　<c:out value="${inputCost.monthlyCost * 12}"/>万円/年</p>
+    <p>　　　　　　毎月必ず発生する費用：　　　　　　　　　　　　　　　　<input type="number" name="monthlyCost" value="${inputCost.monthlyCost}" onblur="calc()">万円/月　×12 ＝
+    　　　　<input type="number" name="yearlyCost" value="0" readonly>万円/年</p>
     <p>　　　　　　（例：食費・生活必需品・住居費・水道光熱費・通信費・交通費・月払い保険料・その他）</p>
     <p>　　　　　　毎年必ず発生する費用：　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
         <input type="number" name="everyYearCost" value="${inputCost.everyYearCost}">万円/年</p>
@@ -64,5 +64,11 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
         </c:forEach>
     </c:if>
     </form>
+    <script>
+        function calc(){
+          var amount = document.form1.monthlyCost.value * 12;
+            document.form1.yearlyCost.value = amount;
+        }
+    </script>
 </body>
 </html>
