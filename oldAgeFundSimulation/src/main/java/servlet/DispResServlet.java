@@ -14,13 +14,13 @@ import dao.ResultsDAO;
 import model.InputCost;
 import model.InputIncome;
 
-
 @WebServlet("/DispResServlet")
 public class DispResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String selectName = request.getParameter("simName");
+        String selectNum = request.getParameter("num");
         ResultsDAO dao = new ResultsDAO();
         String [] inputValue = dao.findByName(selectName);
         

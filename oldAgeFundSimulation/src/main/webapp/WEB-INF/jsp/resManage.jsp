@@ -37,6 +37,7 @@ int msg = (int)session.getAttribute("msg");
                     <td>　シミュレーション名称　</td>
                     <td>　　保存日　　</td>
                     <td>　　　　コメント　　　　</td>
+                    <td></td>
                 </tr>
                 <c:forEach var="i" items="${saveList}" varStatus="j">
                     <tr>
@@ -47,11 +48,13 @@ int msg = (int)session.getAttribute("msg");
                                 <td>　<c:out value="${i.getSimName()}" />　</td>
                             </c:when>
                             <c:otherwise>
-                                <td>　<a href="/oldAgeFundSimulation/DispResServlet?simName=${i.getSimName()}">${i.getSimName()}</a></td>
+                                <td>　<a href="/oldAgeFundSimulation/DispResServlet?simName=${i.getSimName()}&num=${j.count}">${i.getSimName()}</a></td>
                             </c:otherwise>
                         </c:choose>
                         <td>　<c:out value="${i.getSaveDate()}" />　</td>
-                        <td>　<c:out value="${i.getSimCom()}" />　</td>
+                        <td>　<c:out value="${i.getSimCom()}" /></td>
+                        <td><input type="image" src="https://img.icons8.com/windows/32/000000/edit--v1.png" alt="編集" 
+                            name="${i.getSimName()}" formaction="/oldAgeFundSimulation/EditComServlet"></td>
                     </tr>
                 </c:forEach>
             </table>

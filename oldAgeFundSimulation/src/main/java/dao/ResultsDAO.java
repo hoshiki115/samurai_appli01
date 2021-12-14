@@ -113,6 +113,31 @@ public class ResultsDAO {
         }
         return inputValue;
     }
+    public String findByNameCom(String selectName) { //選択したシミュレーション名称のコメントを取得
+        String comment = null;
+        
+        // データベース接続
+        try (Connection conn = DriverManager.getConnection(
+                JDBC_URL, DB_USER, DB_PASS)) {
+            
+            // SELECT文の準備
+            String sql = "SELECT SIMCOM FROM SIMRESULTS WHERE SIMNAME = ?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, selectName);
+            
+            // SELECTを実行
+            ResultSet rs = pStmt.executeQuery();
+            
+            // SELECT文の結果をinputValueに格納
+            if (rs.next()) {
+                comment = rs.getString("SIMCOM");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return comment;
+    }
     public List<SaveResult> findAll() { //全レコードを取得
         List<SaveResult> saveList = new ArrayList<>();
         
