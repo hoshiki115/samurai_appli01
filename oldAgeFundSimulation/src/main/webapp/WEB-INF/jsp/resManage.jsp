@@ -28,7 +28,7 @@ int msg = (int)session.getAttribute("msg");
             <p>　　<c:out value="結果を表示したいシミュレーション名称をクリックしてください" /></p>
         </c:if>
         <c:if test="${msg != 1}">
-        <form name="delConfirm">
+        <form name="delConfirm" action="/oldAgeFundSimulation/EditComServlet" method="get">
             <p>※保存できる件数は10件まで</p>
             <table border="1" style="border-collapse: collapse">
                 <tr>
@@ -54,7 +54,7 @@ int msg = (int)session.getAttribute("msg");
                         <td>　<c:out value="${i.getSaveDate()}" />　</td>
                         <td>　<c:out value="${i.getSimCom()}" /></td>
                         <td><input type="image" src="https://img.icons8.com/windows/32/000000/edit--v1.png" alt="編集" 
-                            name="${i.getSimName()}" formaction="/oldAgeFundSimulation/EditComServlet"></td>
+                            name="${i.getSimName()}"></td>
                     </tr>
                 </c:forEach>
             </table>
