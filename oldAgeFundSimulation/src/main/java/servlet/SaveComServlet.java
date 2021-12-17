@@ -9,14 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/CalResServlet")
-public class CalResServlet extends HttpServlet {
+import dao.ResultsDAO;
+
+/**
+ * Servlet implementation class SaveComServlet
+ */
+@WebServlet("/SaveComServlet")
+public class SaveComServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-       
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("errorMsg", null);
-        request.setAttribute("flag", "1");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+        String selectName = request.getParameter("selectName");
+        String comment = request.getParameter("comment");
+        ResultsDAO dao = new ResultsDAO();
+        dao.updateCom(selectName, comment);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/ResManageServlet");
         dispatcher.forward(request, response);
     }
+
 }

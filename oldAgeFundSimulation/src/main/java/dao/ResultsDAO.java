@@ -232,4 +232,26 @@ public class ResultsDAO {
             e.printStackTrace();
         }
     }
+    public boolean updateCom(String selectName, String comment) { //選択したシミュレーション名称のコメントを編集して更新
+        // データベース接続
+        try (Connection conn = DriverManager.getConnection(
+                JDBC_URL, DB_USER, DB_PASS)) {
+            
+            // SELECT文の準備
+            String sql = "UPDATE SIMRESULTS SET SIMCOM = ? WHERE SIMNAME = ?";
+            PreparedStatement pStmt = conn.prepareStatement(sql);
+            pStmt.setString(1, comment);
+            pStmt.setString(2, selectName);
+            
+            // UPDATEを実行
+            int result = pStmt.executeUpdate();
+            if(result != 1) {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }

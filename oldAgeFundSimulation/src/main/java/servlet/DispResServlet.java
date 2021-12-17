@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.ResultsDAO;
 import model.GetSaveInputLogic;
 import model.InputCost;
 import model.InputIncome;

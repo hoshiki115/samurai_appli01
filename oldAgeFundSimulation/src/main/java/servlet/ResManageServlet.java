@@ -52,6 +52,7 @@ public class ResManageServlet extends HttpServlet {
         CheckSaveNameLogic checkSaveNameLogic = new CheckSaveNameLogic();
         boolean isCheck = checkSaveNameLogic.execute(simName); 
         int msg = 0;
+        request.setAttribute("flag","1");
         // 保存件数のチェック
         ResultsDAO dao = new ResultsDAO();
         int saveNum = dao.count();

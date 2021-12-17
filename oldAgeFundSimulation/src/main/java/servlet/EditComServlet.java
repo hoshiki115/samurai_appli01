@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,5 +22,11 @@ public class EditComServlet extends HttpServlet {
         String comment = dao.findByNameCom(selectName);
         System.out.println(selectName);
         System.out.println(comment);
+        
+        request.setAttribute("flag", "2");
+        request.setAttribute("selectName", selectName);
+        request.setAttribute("comment", comment);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+        dispatcher.forward(request, response);
     }
 }
