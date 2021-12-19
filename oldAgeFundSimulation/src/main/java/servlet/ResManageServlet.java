@@ -30,7 +30,9 @@ public class ResManageServlet extends HttpServlet {
         // 保存件数のチェック
         ResultsDAO dao = new ResultsDAO();
         int saveNum = dao.count();
-        if(saveNum == 0) {
+        if(saveNum == -1) {
+            msg = -1; //DBに接続できない場合
+        } else if(saveNum == 0) {
             msg = 1; // 保存された結果がない場合
         } else {
             msg = 2; // 結果を表示したいシミュレーション名称をクリック
@@ -47,19 +49,25 @@ public class ResManageServlet extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+        request.setAttribute("flag","1");
+        int msg = 0;
+     // 保存件数のチェック
+        ResultsDAO dao = new ResultsDAO();
+        int saveNum = dao.count();
+        if(saveNum == -1) {
+            msg = -1; //DBに接続できない場合
+            HttpSession session = request.getSession();
+            session.setAttribute("msg", msg);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
+            dispatcher.forward(request, response);
+        }
         String simName = request.getParameter("simName");
         String simCom = request.getParameter("simCom");
         CheckSaveNameLogic checkSaveNameLogic = new CheckSaveNameLogic();
         boolean isCheck = checkSaveNameLogic.execute(simName); 
-        int msg = 0;
-        request.setAttribute("flag","1");
-        // 保存件数のチェック
-        ResultsDAO dao = new ResultsDAO();
-        int saveNum = dao.count();
+        
         if(saveNum >= 10) {
             msg = 3; // 保存件数が10件を超える場合
-            HttpSession session = request.getSession();
-            session.setAttribute("msg", msg);
         } else if(simName == "" || simName == null) {
             // シミュレーション名称の入力をチェック
             request.setAttribute("errorMsg", "シミュレーション名称が入力されていません");
@@ -94,13 +102,14 @@ public class ResManageServlet extends HttpServlet {
             PostSaveResLogic postSaveResLogic = new PostSaveResLogic();
             postSaveResLogic.execute(saveResult, inputIncome, inputCost);
             msg = 4; // シミュレーション結果が正常に保存
-            session.setAttribute("msg", msg);
         }
         // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
         GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
         List<SaveResult> saveList = getSaveResLogic.execute();
         request.setAttribute("saveList", saveList);
         
+        HttpSession session = request.getSession();
+        session.setAttribute("msg", msg);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
         dispatcher.forward(request, response);
     }

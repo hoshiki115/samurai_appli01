@@ -13,6 +13,9 @@ int msg = (int)session.getAttribute("msg");
     </head>
     <body>
         <h1>シミュレーション結果管理</h1>
+        <c:if test="${msg == -1}">
+            <p style="color: red">　　<c:out value="DBに接続できません。DBに接続してから再度実行してください。" /></p>
+        </c:if>
         <c:if test="${msg == 1}">
             <p style="color: red">　　<c:out value="保存された結果はありません" /></p>
         </c:if>
@@ -27,7 +30,7 @@ int msg = (int)session.getAttribute("msg");
             <p style="color: blue">　　<c:out value="シミュレーション結果が正常に保存されました" /></p>
             <p>　　<c:out value="結果を表示したいシミュレーション名称をクリックしてください" /></p>
         </c:if>
-        <c:if test="${msg != 1}">
+        <c:if test="${msg == 2 || msg == 3 || msg == 4 || msg == 5}">
         
         <p>※保存できる件数は10件まで</p>
         <table border="1" style="border-collapse: collapse">

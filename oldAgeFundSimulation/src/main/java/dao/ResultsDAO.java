@@ -35,8 +35,8 @@ public class ResultsDAO {
             if(rs.next()) {
                 saveNum = rs.getInt("SIMID");
             }
+            pStmt.close();
             return saveNum;
-            
         } catch (SQLException e) {
             e.printStackTrace();
             return -1;
@@ -62,11 +62,12 @@ public class ResultsDAO {
                 SaveResult saveResult = new SaveResult(simName);
                 simNameList.add(saveResult);
             }
+            pStmt.close();
+            return simNameList;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return simNameList;
     }
     public String [] findByName(String selectName) { //選択した１レコードを取得
         String [] inputValue = new String [21];
@@ -107,11 +108,12 @@ public class ResultsDAO {
                 inputValue[19] = rs.getString("EXPECTEDAGE");
                 inputValue[20] = rs.getString("PLANCOSTF");
             }
+            pStmt.close();
+            return inputValue;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return inputValue;
     }
     public String findByNameCom(String selectName) { //選択したシミュレーション名称のコメントを取得
         String comment = null;
@@ -132,11 +134,12 @@ public class ResultsDAO {
             if (rs.next()) {
                 comment = rs.getString("SIMCOM");
             }
+            pStmt.close();
+            return comment;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return comment;
     }
     public List<SaveResult> findAll() { //全レコードを取得
         List<SaveResult> saveList = new ArrayList<>();
@@ -161,11 +164,12 @@ public class ResultsDAO {
                 SaveResult saveResult = new SaveResult(simId, simName, saveDate, simCom);
                 saveList.add(saveResult);
             }
+            pStmt.close();
+            return saveList;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        return saveList;
     }
     public boolean create(SaveResult saveResult, InputIncome inputIncome, InputCost inputCost) { // レコードの追加
      // データベース接続
@@ -209,11 +213,12 @@ public class ResultsDAO {
             if(result != 1) {
                 return false;
             }
+            pStmt.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
     }
     public void delete(List<String> checkNames) { // レコードの削除
         // データベース接続
@@ -248,10 +253,11 @@ public class ResultsDAO {
             if(result != 1) {
                 return false;
             }
+            pStmt.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
     }
 }
