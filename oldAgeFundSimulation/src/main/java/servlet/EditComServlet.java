@@ -20,9 +20,6 @@ public class EditComServlet extends HttpServlet {
         String selectName = request.getParameter("simName");
         ResultsDAO dao = new ResultsDAO();
         String comment = dao.findByNameCom(selectName);
-        System.out.println(selectName);
-        System.out.println(comment);
-        
         request.setAttribute("flag", "2");
         request.setAttribute("selectName", selectName);
         request.setAttribute("comment", comment);
