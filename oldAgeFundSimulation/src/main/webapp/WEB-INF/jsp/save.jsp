@@ -11,6 +11,7 @@ String comment = (String) request.getAttribute("comment");
     <head>
         <meta charset="UTF-8">
         <title>老後資金シミュレーション</title>
+        <link rel="stylesheet" type="text/css" href="/oldAgeFundSimulation/css/style.css">
     </head>
     <body>
         <c:choose>
@@ -19,7 +20,7 @@ String comment = (String) request.getAttribute("comment");
                 <form action="/oldAgeFundSimulation/ResManageServlet" method="post">
                     <p>シミュレーション</P>
                     <p>　名称（10文字以内）【必須】：<input type="text" name="simName"></p>
-                    <p>　　　コメント（50文字以内）：<textarea style="vertical-align:top" rows="2" cols="22" name="simCom"></textarea></p>
+                    <p>　　　コメント（50文字以内）：<textarea class="textarea" rows="2" cols="22" name="simCom"></textarea></p>
                     <p>　　　　　　　　　<input type="submit" value="保存">　　　　　　　
                         <a href="/oldAgeFundSimulation/InputResServlet">＜＜ キャンセル</a></p>
                 </form>
@@ -29,7 +30,7 @@ String comment = (String) request.getAttribute("comment");
                 <form action="/oldAgeFundSimulation/SaveComServlet" method="get">
                     <p>　　　シミュレーション名称：　<input type="text" name="selectName" value="${selectName}" 
                         style="font-size:16px; border:none;" readonly></p>
-                    <p>　　　コメント（50文字以内）：<textarea style="vertical-align:top" rows="2" cols="22" name="comment" 
+                    <p>　　　コメント（50文字以内）：<textarea class="textarea" rows="2" cols="22" name="comment" 
                         placeholder="${comment}"></textarea></p>
                     <p>　　　　　　　　　<input type="submit" value="保存">　　　　　　　
                         <a href="/oldAgeFundSimulation/ResManageServlet">＜＜ キャンセル</a></p>
@@ -37,7 +38,7 @@ String comment = (String) request.getAttribute("comment");
             </c:otherwise>
         </c:choose>
         <c:if test="${errorMsg != null}">
-            <p style="color: red"><c:out value="${errorMsg}" /></p>
+            <p class="red"><c:out value="${errorMsg}" /></p>
         </c:if>
      </body>
 </html>

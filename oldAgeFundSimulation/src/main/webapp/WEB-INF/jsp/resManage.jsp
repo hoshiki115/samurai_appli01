@@ -10,46 +10,47 @@ int msg = (int)session.getAttribute("msg");
     <head>
         <meta charset="UTF-8">
         <title>老後資金シミュレーション</title>
+        <link rel="stylesheet" type="text/css" href="/oldAgeFundSimulation/css/style.css">
     </head>
     <body>
         <h1>シミュレーション結果管理</h1>
         <c:if test="${msg == -1}">
-            <p style="color: red">　　<c:out value="DBに接続できません。DBに接続してから再度実行してください。" /></p>
+            <p class="red">　　<c:out value="DBに接続できません。DBに接続してから再度実行してください。" /></p>
         </c:if>
         <c:if test="${msg == 1}">
-            <p style="color: red">　　<c:out value="保存された結果はありません" /></p>
+            <p class="red">　　<c:out value="保存された結果はありません" /></p>
         </c:if>
         <c:if test="${msg == 2 || msg == 5}">
             <p>　　<c:out value="結果を表示したいシミュレーション名称をクリックしてください" /></p>
         </c:if>
         <c:if test="${msg == 3}">
-            <p style="color: red">　　<c:out value="保存件数が10件を超えます" /></p>
-            <p style="color: red">　　<c:out value="不要なものを削除してから「入力画面に戻る」をクリックし、シミュレーション結果を保存し直してください" /></p>
+            <p class="red">　　<c:out value="保存件数が10件を超えます" /></p>
+            <p class="red">　　<c:out value="不要なものを削除してから「入力画面に戻る」をクリックし、シミュレーション結果を保存し直してください" /></p>
         </c:if>
         <c:if test="${msg == 4}">
-            <p style="color: blue">　　<c:out value="シミュレーション結果が正常に保存されました" /></p>
+            <p class="blue">　　<c:out value="シミュレーション結果が正常に保存されました" /></p>
             <p>　　<c:out value="結果を表示したいシミュレーション名称をクリックしてください" /></p>
         </c:if>
         <c:if test="${msg == 2 || msg == 3 || msg == 4 || msg == 5}">
         
         <p>※保存できる件数は10件まで</p>
         　 <input id="checkAll" type="checkbox" form="bulkDel" name="name" value="checkall">全選択
-        <table border="1" style="border-collapse: collapse">
+        <table border="1" class="border">
             <tr>
-                <td style="background-color: #00ffff;">　削除　</td>
-                <td style="background-color: #00ff00;">　No.　</td>
-                <td style="background-color: #00ff00;">　シミュレーション名称　</td>
-                <td style="background-color: #00ff00;" align="center">保存日</td>
-                <td style="background-color: #00ff00; border-right: none;" align="center">　　　　コメント　　　　</td>
-                <td style="background-color: #00ff00; border-left: none;"></td>
+                <td class="aqua">　削除　</td>
+                <td class="lime1">　No.　</td>
+                <td class="lime1">　シミュレーション名称　</td>
+                <td class="lime2">保存日</td>
+                <td class="lime3">　　　　コメント　　　　</td>
+                <td class="lime4"></td>
             </tr>
             <c:forEach var="i" items="${saveList}" varStatus="j">
                 <tr>
-                    <th style="background-color: #00ffff;"><input type="checkbox" form="bulkDel" class="chk" name="name" value="${i.getSimName()}"></th>
+                    <th class="cyan"><input type="checkbox" form="bulkDel" class="chk" name="name" value="${i.getSimName()}"></th>
                     <form action="/oldAgeFundSimulation/EditComServlet" method="get">
                         <c:choose>
                             <c:when test="${msg == 4 && j.count == 1}">
-                                <td style="background-color: #fafad2;">　<c:out value="${j.count}" /></td>
+                                <td class="lightyellow1">　<c:out value="${j.count}" /></td>
                             </c:when>
                             <c:otherwise>
                                 <td>　<c:out value="${j.count}" /></td>
@@ -60,7 +61,7 @@ int msg = (int)session.getAttribute("msg");
                                 <td>　<c:out value="${i.getSimName()}" />　</td>
                             </c:when>
                             <c:when test="${msg == 4 && j.count == 1}">
-                                <td style="background-color: #fafad2;">　<a href="/oldAgeFundSimulation/DispResServlet?simName=${i.getSimName()}&num=${j.count}">
+                                <td class="lightyellow1">　<a href="/oldAgeFundSimulation/DispResServlet?simName=${i.getSimName()}&num=${j.count}">
                                     ${i.getSimName()}</a></td>
                             </c:when>
                             <c:otherwise>
@@ -70,23 +71,23 @@ int msg = (int)session.getAttribute("msg");
                         </c:choose>
                         <c:choose>
                             <c:when test="${msg == 4 && j.count == 1}">
-                                <td style="background-color: #fafad2;">　<c:out value="${i.getSaveDate()}" />　</td>
-                                <td style="background-color: #fafad2; border-right: none">　<c:out value="${i.getSimCom()}" /></td>
+                                <td class="lightyellow1">　<c:out value="${i.getSaveDate()}" />　</td>
+                                <td class="lightyellow2">　<c:out value="${i.getSimCom()}" /></td>
                             </c:when>
                             <c:otherwise>
                                 <td>　<c:out value="${i.getSaveDate()}" />　</td>
-                                <td style="border-right: none;">　<c:out value="${i.getSimCom()}" /></td>
+                                <td class="border-right">　<c:out value="${i.getSimCom()}" /></td>
                             </c:otherwise>
                         </c:choose>
                         <c:choose>
                             <c:when test="${msg == 4 && j.count == 1}">
-                                <td style="background-color: #fafad2; border-left: none;">
+                                <td class="lightyellow3">
                                     <input type="hidden" name="simName" value="${i.getSimName()}">
                                     <input type="image" src="https://img.icons8.com/windows/32/000000/edit--v1.png" alt="編集" >
                                 </td>
                             </c:when>
                             <c:otherwise>
-                                <td style="border-left: none;">
+                                <td class="border-left">
                                     <input type="hidden" name="simName" value="${i.getSimName()}">
                                     <input type="image" src="https://img.icons8.com/windows/32/000000/edit--v1.png" alt="編集" >
                                 </td>

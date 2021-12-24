@@ -5,12 +5,13 @@
     <head>
         <meta charset="UTF-8">
         <title>老後資金シミュレーション</title>
+        <link rel="stylesheet" type="text/css" href="/oldAgeFundSimulation/css/style.css">
     </head>
     <body>
         <h2>入力データ上書き確認</h2>
         <p>　入力したデータが保存データに</P>
         <p>　上書きされますがよいですか？</p>
-        <div style="display : inline-flex">
+        <div class="display">
             <form action="/oldAgeFundSimulation/DispResServlet" method="post">
                 <p>　　<input type="submit" value="ＯＫ">
             </form>

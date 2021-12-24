@@ -13,9 +13,7 @@ ArrayList<Integer> savingList = (ArrayList<Integer>)session.getAttribute("saving
     <head>
         <meta charset="UTF-8">
         <title>老後資金シミュレーション</title>
-        <style>
-            #ex_chart {max-width:960px;max-height:720px;}
-        </style>     
+        <link rel="stylesheet" type="text/css" href="/oldAgeFundSimulation/css/style.css">
     </head>
     <body>
         <h1>老後資金シミュレーション結果</h1>
