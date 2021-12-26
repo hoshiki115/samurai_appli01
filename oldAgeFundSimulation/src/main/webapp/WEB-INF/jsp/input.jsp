@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="model.InputIncome,model.InputCost,model.InputCheck" %>
+<%@ page import="model.InputIncome,model.InputCost" %>
 <% InputIncome imputIncome = (InputIncome) session.getAttribute("inputIncome");
 InputCost imputCost = (InputCost) session.getAttribute("inputCost");
-InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
 %>
 <!DOCTYPE html>
 <html>
@@ -16,12 +15,12 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
     <body>
         <h2>あなたの現状について教えてください</h2>
         <form action="/oldAgeFundSimulation/InputServlet" method="Post">
-        　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
-        <input type="submit" value="入力値全クリア">
+        　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　
+            <input type="submit" value="入力値全クリア">
         </form>
       
         <form action="/oldAgeFundSimulation/InputResServlet" name="form1" method="post">
-            <table border="0" class="border">
+            <table border="1" rules="none" class="border">
                 <tr>
                     <th class="left">収入の部</th>
                 </tr>
@@ -63,7 +62,7 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
                 </tr>
             </table>
             <br>
-            <table border="0" class="border">
+            <table border="1" rules="none" class="border">
                 <tr>
                     <th class="left">支出の部</th>
                 </tr>
@@ -123,7 +122,7 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
             <br>
             <p>　シミュレーション終了年齢（100以下）：<span class="required">必須</span>
                 <input type="number" name="endAge" value="${inputIncome.endAge}">歳まで　　
-                <input type="submit" value="シミュレーション結果の表示">　　　　　　
+                <input type="submit" value="シミュレーション結果の表示">　　　　　　　
                 <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>
       
             <c:if test="${errorList.size() != 0 && errorList != null}">
@@ -133,11 +132,6 @@ InputCheck inputCheck = (InputCheck) request.getAttribute("errorCheck");
                 </c:forEach>
             </c:if>
         </form>
-        <script>
-            function calc(){
-                var amount = document.form1.monthlyCost.value * 12;
-                document.form1.yearlyCost.value = amount;
-            }
-        </script>
+        <script type="text/javascript" src="/oldAgeFundSimulation/js/input.js"></script>
     </body>
 </html>

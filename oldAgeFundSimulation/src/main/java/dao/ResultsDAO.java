@@ -220,7 +220,7 @@ public class ResultsDAO {
             return false;
         }
     }
-    public void delete(List<String> checkNames) { // レコードの削除
+    public boolean delete(List<String> checkNames) { // レコードの削除
         // データベース接続
         try (Connection conn = DriverManager.getConnection(
                JDBC_URL, DB_USER, DB_PASS)) {
@@ -233,8 +233,10 @@ public class ResultsDAO {
                 pStmt.executeUpdate();
             }
             pStmt.close();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
     }
     public boolean updateCom(String selectName, String comment) { //選択したシミュレーション名称のコメントを編集して更新

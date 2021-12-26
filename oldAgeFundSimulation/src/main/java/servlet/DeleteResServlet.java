@@ -21,29 +21,34 @@ public class DeleteResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<String> checkNames = new ArrayList<String>();
-        String [] simNames = request.getParameterValues("name");
-        for(int i = 0; i < simNames.length; i++) {
-            checkNames.add(simNames[i]);
+        try {
+            List<String> checkNames = new ArrayList<String>();
+            String [] simNames = request.getParameterValues("name");
+            for(int i = 0; i < simNames.length; i++) {
+                checkNames.add(simNames[i]);
+            }
+            HttpSession session = request.getSession();
+            int msg = (int) session.getAttribute("msg");
+            ResultsDAO dao = new ResultsDAO();
+            dao.delete(checkNames);
+            int saveNum = dao.count();
+            if(saveNum == 0) {
+                msg = 1; // 保存された結果がない場合
+            } else {
+                // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
+                GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
+                List<SaveResult> saveList = getSaveResLogic.execute();
+                request.setAttribute("saveList", saveList);
+            }
+            if(msg == 3) {
+                msg = 5; // 保存件数が10件を超えていたのを削除したため3から5に変更
+            }
+            session.setAttribute("msg", msg);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
         }
-        HttpSession session = request.getSession();
-        int msg = (int) session.getAttribute("msg");
-        ResultsDAO dao = new ResultsDAO();
-        dao.delete(checkNames);
-        int saveNum = dao.count();
-        if(saveNum == 0) {
-            msg = 1; // 保存された結果がない場合
-        } else {
-            // 保存されたシミュレーション結果を取得して、リクエストスコープに保存
-            GetSaveResLogic getSaveResLogic = new GetSaveResLogic();
-            List<SaveResult> saveList = getSaveResLogic.execute();
-            request.setAttribute("saveList", saveList);
-        }
-        if(msg == 3) {
-            msg = 5; // 保存件数が10件を超えていたのを削除したため3から5に変更
-        }
-        session.setAttribute("msg", msg);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/resManage.jsp");
-        dispatcher.forward(request, response);
     }
 }

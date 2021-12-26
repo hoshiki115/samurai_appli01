@@ -16,14 +16,24 @@ public class InputServlet extends HttpServlet {
     
     // 入力画面にフォワード
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
-        dispatcher.forward(request, response);
+        try {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+        }
     }
     // 入力値全クリアして、入力画面にフォワード
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
-        dispatcher.forward(request, response);
+        try {
+            HttpSession session = request.getSession();
+            session.invalidate();
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/input.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+        }
     }
 }

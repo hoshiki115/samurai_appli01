@@ -2,8 +2,8 @@ package model;
 
 public class Calc {
     public static int [][] calc(InputIncome inputIncome, InputCost inputCost) {
-        // 入力値を文字型から整数型配列に変換して格納
-        int [] intParamValue = StringToInt.stringToInt(inputIncome, inputCost);
+        InputArray inputArray = new InputArray(inputIncome, inputCost);
+        int [] intParamValue = inputArray.getIntParamValue();
         int term = intParamValue[7] - intParamValue[0] + 1;
         
         // 配列を初期化

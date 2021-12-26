@@ -17,7 +17,12 @@ public class CancelServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ResManageServlet");
-        dispatcher.forward(request, response);
+        try {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ResManageServlet");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+        }
     }
 }

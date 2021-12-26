@@ -19,12 +19,17 @@ public class SaveComServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String selectName = request.getParameter("selectName");
-        String comment = request.getParameter("comment");
-        ResultsDAO dao = new ResultsDAO();
-        dao.updateCom(selectName, comment);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ResManageServlet");
-        dispatcher.forward(request, response);
+        try {
+            String selectName = request.getParameter("selectName");
+            String comment = request.getParameter("comment");
+            ResultsDAO dao = new ResultsDAO();
+            dao.updateCom(selectName, comment);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ResManageServlet");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+        }
     }
 
 }

@@ -14,9 +14,14 @@ public class CalResServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
        
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("errorMsg", null);
-        request.setAttribute("flag", "1");
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
-        dispatcher.forward(request, response);
+        try {
+            request.setAttribute("errorMsg", null);
+            request.setAttribute("flag", "1");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/save.jsp");
+            dispatcher.forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+        }
     }
 }
