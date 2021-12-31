@@ -60,8 +60,8 @@ InputCost imputCost = (InputCost) session.getAttribute("inputCost");
                     <td>　　　　　　　　　　　　<input type="number" name="otherIncomeAge" value="${inputIncome.otherIncomeAge}">歳で</td>
                     <td>　　　　<input type="number" name="otherIncome" value="${inputIncome.otherIncome}">万円/年　</td>
                 </tr>
+                <tr><td>　</td></tr>
             </table>
-            <br>
             <table border="1" rules="none" class="border">
                 <tr>
                     <th class="left">支出の部</th>
@@ -72,7 +72,7 @@ InputCost imputCost = (InputCost) session.getAttribute("inputCost");
                 <tr>
                     <td>　　毎月必ず発生する費用：<span class="required">必須</span></td>
                     <td>　　　　　　　<input type="number" name="monthlyCost" value="${inputCost.monthlyCost}" onblur="calc()">万円/月</td>
-                    <td>×12 ＝　<input type="number" name="yearlyCost" value="0" style="font-size:16px; border:none;" readonly>万円/年　</td>
+                    <td>×12 ＝　<input type="number" name="yearlyCost" value="0" class="font-border" readonly>万円/年　</td>
                 </tr>
                 <tr>
                     <td colspan="2">　　（例：食費・生活必需品・住居費・水道光熱費・通信費・交通費・月払い保険料・その他）　　　</td>
@@ -112,19 +112,28 @@ InputCost imputCost = (InputCost) session.getAttribute("inputCost");
                 </tr>
                 <tr>
                     <td>　　毎年予定する費用：</td>
-                    <td>　</td>
-                    <td>　　　　 <input type="number" name="planCostF" value="${inputCost.planCostF}">万円/年</td>
+                    <td>
+                        <select id="plan">
+                        <option value="noPlan" selected>選択してください</option>
+                        <option value="planA">プランA：節約タイプ（1万円/月）</option>
+                        <option value="planB">プランB：標準タイプ（5万円/月）</option>
+                        <option value="planC">プランC：贅沢タイプ（10万円/月）</option>
+                        <option value="planF">プランF：金額を入力してください</option>
+                        </select>
+                    </td>
+                    <td>　　　　 <input type="number" name="planCostF" value="${inputCost.planCostF}" id="planCost">万円/年</td>
                 </tr>
                 <tr>
                     <td>　　（例：娯楽・旅行・イベント・その他）</td>
                 </tr>
+                <tr><td>　</td></tr>
             </table>
-            <br>
             <p>　シミュレーション終了年齢（100以下）：<span class="required">必須</span>
                 <input type="number" name="endAge" value="${inputIncome.endAge}">歳まで　　
                 <input type="submit" value="シミュレーション結果の表示">　　　　　　　
-                <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a></p>
-      
+                <a href="/oldAgeFundSimulation/Top">＜＜ TOPに戻る</a>
+            </p>
+            
             <c:if test="${errorList.size() != 0 && errorList != null}">
                 <p class="red">エラーメッセージ</p>
                 <c:forEach var="list" items="${errorList}">

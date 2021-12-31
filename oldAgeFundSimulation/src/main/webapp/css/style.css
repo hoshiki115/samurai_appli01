@@ -63,6 +63,10 @@ input[type="number"] {
 .border {
     border-collapse: collapse;
 }
+.font-border {
+  font-size:16px;
+  border:none;
+}
 .left{
     text-align: left;
 }
