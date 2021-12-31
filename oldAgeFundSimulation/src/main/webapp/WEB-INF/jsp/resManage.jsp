@@ -83,13 +83,13 @@ int msg = (int)session.getAttribute("msg");
                             <c:when test="${msg == 4 && j.count == 1}">
                                 <td class="lightyellow3">
                                     <input type="hidden" name="simName" value="${i.getSimName()}">
-                                    <input type="image" src="https://img.icons8.com/windows/32/000000/edit--v1.png" alt="編集" >
+                                    <input type="image" src="/oldAgeFundSimulation/img/icons8-32.png" alt="編集" >
                                 </td>
                             </c:when>
                             <c:otherwise>
                                 <td class="border-left">
                                     <input type="hidden" name="simName" value="${i.getSimName()}">
-                                    <input type="image" src="https://img.icons8.com/windows/32/000000/edit--v1.png" alt="編集" >
+                                    <input type="image" src="/oldAgeFundSimulation/img/icons8-32.png" alt="編集" >
                                 </td>
                             </c:otherwise>
                         </c:choose>
