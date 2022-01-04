@@ -45,7 +45,7 @@ public class DispResServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+            response.sendRedirect("/oldAgeFundSimulation/error");
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,7 +64,7 @@ public class DispResServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+            response.sendRedirect("/oldAgeFundSimulation/error");
         }
     }
 }

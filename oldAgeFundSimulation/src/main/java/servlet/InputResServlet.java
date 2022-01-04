@@ -28,7 +28,7 @@ public class InputResServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+            response.sendRedirect("/oldAgeFundSimulation/error");
         }
     }
     // 入力値を取得
@@ -91,7 +91,7 @@ public class InputResServlet extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+            response.sendRedirect("/oldAgeFundSimulation/error");
         }
     }
 }

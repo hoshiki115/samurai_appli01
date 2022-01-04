@@ -21,7 +21,7 @@ public class CalResServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/oldAgeFundSimulation/WEB-INF/jsp/error.jsp");
+            response.sendRedirect("/oldAgeFundSimulation/error");
         }
     }
 }

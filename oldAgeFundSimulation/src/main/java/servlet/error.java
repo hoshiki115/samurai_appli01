@@ -9,16 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class CancelServlet
- */
-@WebServlet("/CancelServlet")
-public class CancelServlet extends HttpServlet {
+@WebServlet("/error")
+public class error extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ResManageServlet");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/error.jsp");
             dispatcher.forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
